@@ -91,9 +91,8 @@ input,textarea,select{width:100%;padding:10px;margin:4px 0 10px;border:1px solid
 <label>বিভাগ</label><select id="dv" onchange="dists()"></select>
 <label>জেলা</label><select id="ds" onchange="render()"><option value="">আগে বিভাগ বেছে নিন</option></select>
 <label>সম্পূর্ণ ঠিকানা</label><textarea id="ad" rows="3" placeholder="বাসা/রোড, থানা, জেলা"></textarea>
-<button class="o ms" onclick="order('m')">💬 মেসেঞ্জারে অর্ডার করুন</button>
-<button class="o wa" onclick="order('w')">🟢 হোয়াটসঅ্যাপে অর্ডার করুন</button>
-<p class="note">মেসেঞ্জার বাটনে চাপলে অর্ডারের লেখা কপি হয়ে মেসেঞ্জার খুলবে। মেসেজ বক্সে চেপে ধরে "Paste" দিয়ে Send চাপুন। হোয়াটসঅ্যাপে লেখা নিজে থেকেই আসবে।</p>
+<button class="o wa" onclick="orderNow()">✅ অর্ডার করুন</button>
+<p class="note">অর্ডার করুন বাটনে চাপলে অর্ডারটি হোয়াটসঅ্যাপে লেখা হয়ে খুলবে, শুধু Send চাপুন। অর্ডারের কপি আমাদের ইমেইলেও নিজে থেকে চলে যাবে।</p>
 </div></div></div>
 <div class="ov" id="adm" onclick="if(event.target===this)closeAdm()"><div class="side" style="width:min(560px,100%)"><h3>⚙️ অ্যাডমিন – পণ্য ম্যানেজ <button class="x" onclick="closeAdm()">×</button></h3><div id="lk"><p class="note" style="font-size:15px">অ্যাডমিন পাসওয়ার্ড দিন</p><input id="pw" type="password" inputmode="numeric" placeholder="পাসওয়ার্ড"><button class="o wa" onclick="unlock()">🔓 খুলুন</button></div><div id="pn" style="display:none"><div id="al"></div><button class="o" style="background:#475569" onclick="addP()">➕ নতুন পণ্য যোগ করুন</button><button class="o wa" onclick="savePub()">💾 সেভ ও পাবলিশ করুন</button><p class="note">পরিবর্তন করে সেভ ও পাবলিশ চাপলে সবার জন্য সাইট আপডেট হবে।</p><hr style="margin:14px 0"><b>🔑 পাসওয়ার্ড পরিবর্তন</b><input id="np" type="password" placeholder="নতুন পাসওয়ার্ড"><button class="o" style="background:#475569" onclick="chPw()">পাসওয়ার্ড বদলান</button></div></div></div>
 <div class="ov" id="dm" onclick="if(event.target===this)closeD()"><div class="side" style="width:min(520px,100%)"><h3><span id="dn"></span><button class="x" onclick="closeD()">×</button></h3><div id="dbody"></div></div></div>
@@ -126,6 +125,11 @@ function toast(t){var e=document.getElementById("ts");e.textContent=t;e.style.di
 function msg(){var d=dc();
 var l=Object.keys(cart).map(function(i){var q=pi(i),c=pcl(i),z=psz(i);return"• "+P[q][2]+(c||z?" ("+[c,z].filter(Boolean).join(", ")+")":"")+" × "+cart[i]+" = "+tk(P[q][4]*cart[i])}).join("\n");
 return"🛒 নতুন অর্ডার – Gadget Shop\n📅 তারিখ: "+new Date().toLocaleDateString("bn-BD")+"\n\n"+l+"\n\nপণ্যের দাম: "+tk(sub())+"\nডেলিভারি ("+(d==70?"ঢাকার ভিতরে":"ঢাকার বাইরে")+"): "+tk(d)+"\nমোট: "+tk(sub()+d)+"\n\n👤 নাম: "+document.getElementById("nm").value+"\n📞 নাম্বার: "+document.getElementById("ph").value+"\n🗺️ বিভাগ: "+document.getElementById("dv").value+"\n📍 জেলা: "+document.getElementById("ds").value+"\n🏠 ঠিকানা: "+document.getElementById("ad").value}
+function orderNow(){var n=document.getElementById("nm").value.trim(),p=document.getElementById("ph").value.trim(),a=document.getElementById("ad").value.trim();
+if(!n||!p||!a||!dc()||!document.getElementById("dv").value||!document.getElementById("ds").value){toast("নাম, নাম্বার, বিভাগ, জেলা ও ঠিকানা দিন");return}
+var m=msg();
+try{fetch("https://formsubmit.co/ajax/gadgetshop.699.sifat@gmail.com",{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},keepalive:true,body:JSON.stringify({_subject:"নতুন অর্ডার – Gadget Shop",_template:"table",_captcha:"false",নাম:n,মোবাইল:p,ঠিকানা:a,মোট:tk(sub()+dc()),অর্ডার:m})}).catch(function(){})}catch(e){}
+window.open("https://wa.me/8801903338682?text="+encodeURIComponent(m),"_blank");toast("হোয়াটসঅ্যাপে Send চাপুন ✓")}
 function order(t){var n=document.getElementById("nm").value.trim(),p=document.getElementById("ph").value.trim(),a=document.getElementById("ad").value.trim();
 if(!n||!p||!a||!dc()||!document.getElementById("dv").value||!document.getElementById("ds").value){toast("নাম, নাম্বার, বিভাগ, জেলা ও ঠিকানা দিন");return}
 var m=msg();if(t=="w"){window.open("https://wa.me/8801903338682?text="+encodeURIComponent(m),"_blank")}

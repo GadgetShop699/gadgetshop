@@ -81,7 +81,7 @@ input,textarea,select{width:100%;padding:10px;margin:4px 0 10px;border:1px solid
 <p>📧 <a href="mailto:gadgetshop.699.sifat@gmail.com">gadgetshop.699.sifat@gmail.com</a></p>
 <p>💬 WhatsApp: <a href="https://wa.me/8801903338682">01903338682</a></p>
 <p>📘 <a href="https://www.facebook.com/share/1HsUks8bYt/" target="_blank" rel="noopener">Facebook পেজ</a></p><br>
-<p style="font-size:13px">© 2026 Gadget Shop. সর্বস্বত্ব সংরক্ষিত।</p></div></footer>
+<p style="font-size:13px">© 2026 Gadget Shop. সর্বস্বত্ব সংরক্ষিত। <span style="opacity:.6;font-size:11px">[ভার্সন ১১ – ইমেইল: Web3Forms]</span></p></div></footer>
 
 <div class="ov" id="ov" onclick="if(event.target===this)closeCart()"><div class="side">
 <h3>🛒 আপনার কার্ট <button class="x" onclick="closeCart()">×</button></h3>
@@ -149,7 +149,7 @@ function sendMail(subject,body,extra,cb){fetch("https://api.web3forms.com/submit
 function orderNow(){var n=document.getElementById("nm").value.trim(),p=document.getElementById("ph").value.trim(),a=document.getElementById("ad").value.trim();
 if(!n||!p||!a||!dc()||!document.getElementById("dv").value||!document.getElementById("ds").value){toast("নাম, নাম্বার, বিভাগ, জেলা ও ঠিকানা দিন");return}
 for(var k in cart){if(P[pi(k)][11]){toast("স্টক শেষ পণ্য কার্ট থেকে বাদ দিন");return}}var m=msg(),b=document.getElementById("obtn");b.disabled=true;b.innerHTML='<span class="spin"></span>অর্ডার হচ্ছে...';var t0=Date.now();
-sendMail("নতুন অর্ডার – Gadget Shop",m,{"Name":n,"Mobile":p,"Address":a,"Total":tk(sub()+dc()+10)},function(ok,msg){setTimeout(function(){b.disabled=false;b.textContent="✅ অর্ডার করুন";if(ok){saveOrder(m);toast("অর্ডার কনফার্ম হয়েছে ✓")}else toast("অর্ডার পাঠানো যায়নি, আবার চেষ্টা করুন"+(msg?" ("+String(msg).slice(0,90)+")":""),6000)},Math.max(0,3000-(Date.now()-t0)))})}
+sendMail("নতুন অর্ডার – Gadget Shop",m,{"Name":n,"Mobile":p,"Address":a,"Total":tk(sub()+dc()+10)},function(ok,msg){setTimeout(function(){b.disabled=false;b.textContent="✅ অর্ডার করুন";if(ok){saveOrder(m);toast("অর্ডার কনফার্ম হয়েছে ✓"+(msg?" ("+String(msg).slice(0,70)+")":""),6000)}else{toast("অর্ডার পাঠানো যায়নি – ইমেইল অ্যাপ খুলছে, Send চাপুন"+(msg?" ("+String(msg).slice(0,60)+")":""),6000);setTimeout(function(){location.href="mailto:gadgetshop.699.sifat@gmail.com,mdsifatislan5889@gmail.com?subject="+encodeURIComponent("নতুন অর্ডার – Gadget Shop")+"&body="+encodeURIComponent(m)},2500)}},Math.max(0,3000-(Date.now()-t0)))})}
 function order(t){var n=document.getElementById("nm").value.trim(),p=document.getElementById("ph").value.trim(),a=document.getElementById("ad").value.trim();
 if(!n||!p||!a||!dc()||!document.getElementById("dv").value||!document.getElementById("ds").value){toast("নাম, নাম্বার, বিভাগ, জেলা ও ঠিকানা দিন");return}
 var m=msg();if(t=="w"){window.open("https://wa.me/8801903338682?text="+encodeURIComponent(m),"_blank")}
